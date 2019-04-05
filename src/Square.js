@@ -6,26 +6,29 @@ export class Square extends Component {
         super(props);
 
         this.coord = this.props.coord;
+        this.snake1 = this.props.snakes.snake1;
+        this.snake2 = this.props.snakes.snake2;
+    }
+
+    renderSnake(snake) {
+        for (let i = 0; i < snake.length; i++) {
+            if (areCoordsEqual(snake.location[i], this.coord)) {
+                if (snake === this.snake1) {
+                    return <button className='colouredSquare' id='snake1Square'> </button>;
+                } else {
+                    return <button className='colouredSquare' id='snake2Square'> </button>
+                }
+            }
+        }
     }
 
     render() {
-        for (let i = 0; i < this.props.snakes.snake1.length; i++) {
-            if (areCoordsEqual(this.props.snakes.snake1.location[i], this.coord)) {
-                return (
-                    <button className='colouredSquare' id='snake1Square'>
-                    </button>
-                )
-            }
-        }
 
-        for (let i = 0; i < this.props.snakes.snake2.length; i++) {
-            if (areCoordsEqual(this.props.snakes.snake2.location[i], this.coord)) {
-                return (
-                    <button className='colouredSquare' id='snake2Square'>
-                    </button>
-                )
-            }
-        }
+        let button = this.renderSnake(this.snake1);
+        if (button) return button;
+
+        button = this.renderSnake(this.snake2);
+        if (button) return button;
 
         return (
             <button className="square">

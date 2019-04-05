@@ -11,7 +11,7 @@ export class Row extends Component {
 
             squares.push(<Square
                 size={this.props.size}
-                snakeArray={this.props.snakes}
+                snakes={this.props.snakes}
                 coord={coord}
             />);
         }

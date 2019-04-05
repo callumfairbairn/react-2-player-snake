@@ -27,7 +27,7 @@ export class Game extends Component {
         for (let y = 0; y < this.state.size.y; y++) {
             rows.push(<Row
                 size={this.state.size}
-                snakeArray={this.snakes}
+                snakes={this.snakes}
                 row={y}
             />);
         }

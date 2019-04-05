@@ -1,5 +1,3 @@
-import {Coord} from './GlobalImports'
-
 export class Snake {
     constructor(size, startingPosition) {
         this.length = 1;
