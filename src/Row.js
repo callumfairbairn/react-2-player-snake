@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import Square from './Square'
+import {Square} from './Square'
+import {Coord} from './GlobalImports'
 
-class Row extends Component {
+
+export class Row extends Component {
     render() {
-        let squares = new Array(this.props.size[0]);
-        for (let x = 0; x < this.props.size[0]; x++) {
-            squares.push(<Square size={this.props.size}/>);
+        let squares = new Array(this.props.size.x);
+        for (let x = 0; x < this.props.size.x; x++) {
+            let coord = new Coord(x, this.props.row);
+            squares.push(<Square
+                size={this.props.size}
+                snake={this.props.snake}
+                coord={coord}
+            />);
         }
 
         return (
@@ -15,5 +22,3 @@ class Row extends Component {
         )
     }
 }
-
-export default Row
