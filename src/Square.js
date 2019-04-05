@@ -9,10 +9,19 @@ export class Square extends Component {
     }
 
     render() {
-        for (let i = 0; i < this.props.snake.length; i++) {
-            if (areCoordsEqual(this.props.snake.location[i], this.coord)) {
+        for (let i = 0; i < this.props.snakes.snake1.length; i++) {
+            if (areCoordsEqual(this.props.snakes.snake1.location[i], this.coord)) {
                 return (
-                    <button className="colouredSquare">
+                    <button className='colouredSquare' id='snake1Square'>
+                    </button>
+                )
+            }
+        }
+
+        for (let i = 0; i < this.props.snakes.snake2.length; i++) {
+            if (areCoordsEqual(this.props.snakes.snake2.location[i], this.coord)) {
+                return (
+                    <button className='colouredSquare' id='snake2Square'>
                     </button>
                 )
             }

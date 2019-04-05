@@ -16,8 +16,12 @@ body {
     background: #fff;
 }
 
-.colouredSquare {
+#snake1Square {
     background: black;
+}
+
+#snake2Square {
+    background-color: #3cffdc;
 }
 
 .square:focus, .colouredSquare:focus, .appleSquare:focus, .game:focus {

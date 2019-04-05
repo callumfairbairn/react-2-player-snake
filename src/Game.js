@@ -9,10 +9,14 @@ export class Game extends Component {
 
         let sizeX = 20, sizeY = 20;
         let size = new Coord(sizeX, sizeY);
-        // let size = {x: sizeX, y: sizeY};
-        let snake = new Snake(size);
 
-        this.Snake = snake;
+        let startingPosition1 = new Coord(size.x-5, size.y/2);
+        let startingPosition2 = new Coord(5, size.y/2);
+
+        let snake1 = new Snake(size, startingPosition1);
+        let snake2 = new Snake(size, startingPosition2);
+
+        this.snakes = {snake1, snake2};
         this.state = {
             size: size,
         };
@@ -23,7 +27,7 @@ export class Game extends Component {
         for (let y = 0; y < this.state.size.y; y++) {
             rows.push(<Row
                 size={this.state.size}
-                snake={this.Snake}
+                snakeArray={this.snakes}
                 row={y}
             />);
         }

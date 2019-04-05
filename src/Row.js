@@ -8,9 +8,10 @@ export class Row extends Component {
         let squares = new Array(this.props.size.x);
         for (let x = 0; x < this.props.size.x; x++) {
             let coord = new Coord(x, this.props.row);
+
             squares.push(<Square
                 size={this.props.size}
-                snake={this.props.snake}
+                snakeArray={this.props.snakes}
                 coord={coord}
             />);
         }
