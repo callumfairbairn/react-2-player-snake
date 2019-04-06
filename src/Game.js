@@ -17,13 +17,11 @@ export class Game extends Component {
         let snake2 = new Snake(size, startingPosition2);
         let snakes = {snake1, snake2};
 
-        this.player1KeyPressArray = [];
-        this.player2KeyPressArray = [];
-
         this.state = {
             size: size,
             snakes: snakes,
         };
+
 
         this.my_refs = {};
         this.focusByID.bind(this);
@@ -48,16 +46,6 @@ export class Game extends Component {
         this.focusByID('gameDiv');
     }
 
-    snakeLocationCalculation(snake) {
-        let newSnake = snake;
-        // the -1 here could cause problems later on
-        for (let i = snake.location.length-1; i > 0; i--) {
-            newSnake.location[i] = [newSnake.location[i-1].x, newSnake.location[i-1].y ]
-        }
-        newSnake.updateHeadLocation();
-        return newSnake;
-    }
-
     makeRows() {
         let rows = new Array(this.state.size.y);
         for (let y = 0; y < this.state.size.y; y++) {
@@ -72,7 +60,6 @@ export class Game extends Component {
 
     handleKeyPress(event) {
         let eventCode = event.charCode || event.keyCode;
-
         let playerMap = {
             37: 'player1',
             39: 'player1',
@@ -85,55 +72,62 @@ export class Game extends Component {
         };
 
         if (playerMap[eventCode] === 'player1') {
-            this.player1KeyPressArray.push(eventCode);
+            this.state.snakes.snake1.keyPressArray.push(eventCode);
         } else {
-            this.player2KeyPressArray.push(eventCode);
+            this.state.snakes.snake2.keyPressArray.push(eventCode);
         }
     }
 
-    handleKeyPressArray(player) {
-        if (player === 1) {
-            if (!this.player1KeyPressArray[0]) {
-                return
-            }
-
-            let eventCode = this.player1KeyPressArray[0];
-
-            let directionMap = {
-                37:(this.state.snakes.snake1.direction !== 'right') ? 'left' : 'right',
-                39:(this.state.snakes.snake1.direction !== 'left') ? 'right' : 'left',
-                38:(this.state.snakes.snake1.direction !== 'down') ? 'up' : 'down',
-                40:(this.state.snakes.snake1.direction !== 'up') ? 'down': 'up',
-            };
-
-            let newDirection = directionMap[eventCode];
-
-            if (newDirection) {
-                let snakes = this.state.snakes;
-                let snake1 = snakes.snake1;
-                snake1.direction = newDirection;
-                snakes.snake1 = snake1;
-
-                this.setState({
-                    snakes: snakes,
-                });
-            }
-
-            this.player1KeyPressArray = this.player1KeyPressArray.slice(1);
+    handleKeyPressArray(snake) {
+        if (!snake.keyPressArray[0]) {
+            return snake;
         }
+
+        let newSnake = snake;
+        let eventCode = snake.keyPressArray[0];
+
+        let directionMap = {
+            37:(snake.direction !== 'right') ? 'left' : 'right',
+            65:(snake.direction !== 'right') ? 'left' : 'right',
+
+            39:(snake.direction !== 'left') ? 'right' : 'left',
+            68:(snake.direction !== 'left') ? 'right' : 'left',
+
+            38:(snake.direction !== 'down') ? 'up' : 'down',
+            87:(snake.direction !== 'down') ? 'up' : 'down',
+
+            40:(snake.direction !== 'up') ? 'down': 'up',
+            83:(snake.direction !== 'up') ? 'down': 'up',
+        };
+
+        let newDirection = directionMap[eventCode];
+        if (newDirection) {
+            newSnake.direction = newDirection;
+            newSnake.keyPressArray = snake.keyPressArray.slice(1);
+        }
+        return newSnake;
     }
 
     tick() {
-        this.handleKeyPressArray(1);
-        this.handleKeyPressArray(2);
-
         let snakes = this.state.snakes;
-        // NEED TO GIVE THIS DIRECTION, OR USE SNAKE'S OWN DIRECTION
-        snakes.snake1 = this.snakeLocationCalculation(this.state.snakes.snake1);
+        let newSnake1 = this.handleKeyPressArray(this.state.snakes.snake1);
+        let newSnake2 = this.handleKeyPressArray(this.state.snakes.snake2);
+        snakes.snake1 = this.snakeLocationCalculation(newSnake1);
+        snakes.snake2 = this.snakeLocationCalculation(newSnake2);
 
         this.setState({
             snakes: snakes,
         })
+    }
+
+    snakeLocationCalculation(snake) {
+        let newSnake = snake;
+        // the -1 here could cause problems later on
+        for (let i = snake.location.length-1; i > 0; i--) {
+            newSnake.location[i] = [newSnake.location[i-1].x, newSnake.location[i-1].y ]
+        }
+        newSnake.updateHeadLocation();
+        return newSnake;
     }
 
     render() {

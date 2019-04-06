@@ -4,6 +4,7 @@ export class Snake {
         this.speed = 1;
         this.direction = 'none';
         this.location = [startingPosition];
+        this.keyPressArray = [];
 
         // this.locationMap = {
         //     'left': this.moveLeft(),
