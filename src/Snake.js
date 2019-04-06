@@ -14,6 +14,47 @@ export class Snake {
         // };
     }
 
+    tick() {
+        this.handleKeyPressArray();
+        this.moveToNewLocation();
+    }
+
+    handleKeyPressArray() {
+        if (!this.keyPressArray[0]) {
+            return this;
+        }
+
+        let eventCode = this.keyPressArray[0];
+
+        let directionMap = {
+            37:(this.direction !== 'right') ? 'left' : 'right',
+            65:(this.direction !== 'right') ? 'left' : 'right',
+
+            39:(this.direction !== 'left') ? 'right' : 'left',
+            68:(this.direction !== 'left') ? 'right' : 'left',
+
+            38:(this.direction !== 'down') ? 'up' : 'down',
+            87:(this.direction !== 'down') ? 'up' : 'down',
+
+            40:(this.direction !== 'up') ? 'down': 'up',
+            83:(this.direction !== 'up') ? 'down': 'up',
+        };
+
+        let newDirection = directionMap[eventCode];
+        if (newDirection) {
+            this.direction = newDirection;
+            this.keyPressArray = this.keyPressArray.slice(1);
+        }
+    }
+
+    moveToNewLocation() {
+        // the -1 here could cause problems later on
+        for (let i = this.location.length-1; i > 0; i--) {
+            this.location[i] = [this.location[i-1].x, this.location[i-1].y ]
+        }
+        this.updateHeadLocation();
+    }
+
     updateHeadLocation() {
         if (this.direction === 'left') {
             this.moveLeft();

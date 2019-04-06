@@ -80,56 +80,17 @@ export class Game extends Component {
         }
     }
 
-    handleKeyPressArray(snake) {
-        if (!snake.keyPressArray[0]) {
-            return snake;
-        }
-
-        let newSnake = snake;
-        let eventCode = snake.keyPressArray[0];
-
-        let directionMap = {
-            37:(snake.direction !== 'right') ? 'left' : 'right',
-            65:(snake.direction !== 'right') ? 'left' : 'right',
-
-            39:(snake.direction !== 'left') ? 'right' : 'left',
-            68:(snake.direction !== 'left') ? 'right' : 'left',
-
-            38:(snake.direction !== 'down') ? 'up' : 'down',
-            87:(snake.direction !== 'down') ? 'up' : 'down',
-
-            40:(snake.direction !== 'up') ? 'down': 'up',
-            83:(snake.direction !== 'up') ? 'down': 'up',
-        };
-
-        let newDirection = directionMap[eventCode];
-        if (newDirection) {
-            newSnake.direction = newDirection;
-            newSnake.keyPressArray = snake.keyPressArray.slice(1);
-        }
-        return newSnake;
-    }
-
     tick() {
-        let snakes = this.state.snakes;
-        let newSnake1 = this.handleKeyPressArray(this.state.snakes.snake1);
-        let newSnake2 = this.handleKeyPressArray(this.state.snakes.snake2);
-        snakes.snake1 = this.snakeLocationCalculation(newSnake1);
-        snakes.snake2 = this.snakeLocationCalculation(newSnake2);
+        let newSnake1 = this.state.snakes.snake1;
+        let newSnake2 = this.state.snakes.snake2;
 
+        newSnake1.tick();
+        newSnake2.tick();
+
+        let newSnakes = {snake1: newSnake1, snake2: newSnake2};
         this.setState({
-            snakes: snakes,
-        })
-    }
-
-    snakeLocationCalculation(snake) {
-        let newSnake = snake;
-        // the -1 here could cause problems later on
-        for (let i = snake.location.length-1; i > 0; i--) {
-            newSnake.location[i] = [newSnake.location[i-1].x, newSnake.location[i-1].y ]
-        }
-        newSnake.updateHeadLocation();
-        return newSnake;
+            snakes: newSnakes,
+        });
     }
 
     render() {
