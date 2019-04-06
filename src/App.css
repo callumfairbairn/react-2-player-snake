@@ -21,10 +21,10 @@ body {
 }
 
 #snake2Square {
-    background-color: #3cffdc;
+    background-color: aquamarine;
 }
 
-.square:focus, .colouredSquare:focus, .appleSquare:focus, .game:focus {
+.square:focus, .colouredSquare:focus, .appleSquare:focus, .game:focus, #gameDiv {
     outline: none;
 }
 

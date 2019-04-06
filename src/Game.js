@@ -24,13 +24,28 @@ export class Game extends Component {
             size: size,
             snakes: snakes,
         };
+
+        this.my_refs = {};
+        this.focusByID.bind(this);
+    }
+
+    focusByID(id){
+        let myRef = this.my_refs[id];
+        if(myRef){
+            myRef.focus();
+        }
     }
 
     componentDidMount() {
+        this.focusByID('gameDiv');
         this.timerID = setInterval(
             () => this.tick(),
             150
         );
+    }
+
+    componentWillUnmount() {
+        this.focusByID('gameDiv');
     }
 
     snakeLocationCalculation(snake) {
@@ -126,7 +141,12 @@ export class Game extends Component {
 
         return (
             <div id='gameContainer'>
-                <div onKeyDown={(event) => this.handleKeyPress(event)}>
+                <div
+                    onKeyDown={(event) => this.handleKeyPress(event)}
+                    tabIndex='0'
+                    id='gameDiv'
+                    ref={(input)=> this.my_refs['gameDiv'] = input}
+                    >
                     {rows}
                 </div>
             </div>
