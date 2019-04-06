@@ -9,3 +9,10 @@ export class Coord {
     }
 }
 
+export function randomAppleLocation(size) {
+    let appleX = Math.floor(Math.random()*size.x);
+    let appleY = Math.floor(Math.random()*size.y);
+
+    return new Coord(appleX, appleY);
+}
+

@@ -20,6 +20,14 @@ export class Square extends Component {
                 }
             }
         }
+
+        if (areCoordsEqual(this.props.appleLocation, this.coord)) {
+            return (
+                <button className="appleSquare">
+                    
+                </button>
+            )
+        }
     }
 
     render() {

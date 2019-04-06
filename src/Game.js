@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Row} from './Row'
 import {Snake} from './Snake'
-import {Coord} from './GlobalImports'
+import {Coord, randomAppleLocation} from './GlobalImports'
 
 export class Game extends Component {
     constructor(props) {
@@ -10,8 +10,8 @@ export class Game extends Component {
         let sizeX = 20, sizeY = 20;
         let size = new Coord(sizeX, sizeY);
 
-        let startingPosition1 = new Coord(4, size.y/2);
-        let startingPosition2 = new Coord(size.x-5, size.y/2);
+        let startingPosition1 = new Coord(size.x-5, size.y/2);
+        let startingPosition2 = new Coord(4, size.y/2);
 
         let snake1 = new Snake(size, startingPosition1);
         let snake2 = new Snake(size, startingPosition2);
@@ -20,6 +20,7 @@ export class Game extends Component {
         this.state = {
             size: size,
             snakes: snakes,
+            appleLocation: randomAppleLocation(size),
         };
 
 
@@ -53,6 +54,7 @@ export class Game extends Component {
                 size={this.state.size}
                 snakes={this.state.snakes}
                 row={y}
+                appleLocation={this.state.appleLocation}
             />);
         }
         return rows;
