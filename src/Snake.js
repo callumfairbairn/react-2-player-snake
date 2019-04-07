@@ -18,11 +18,15 @@ export class Snake {
         // };
     }
 
-    tick(gridSize) {
+    tick(gridSize, otherSnake) {
         this.handleKeyPressArray();
         this.updateBodyLocation();
         this.updateHeadLocation();
         this.checkBorderCollision(gridSize);
+        this.checkOtherSnakeCollision(otherSnake);
+        this.checkThisSnakeCollision();
+        this.endRecoveryIfNotTouchingAnything();
+
     }
 
     handleKeyPressArray() {
@@ -99,7 +103,28 @@ export class Snake {
         if (this.returnHeadLocation().y > gridSize.y-1) {
             this.doCollision()
         }
-        this.endRecoveryIfNotTouchingAnything();
+    }
+
+    checkOtherSnakeCollision(snake) {
+        let headLocation = this.returnHeadLocation();
+        let doCollision = () => this.doCollision();
+        snake.location.forEach(function(element) {
+            if (areCoordsEqual(element, headLocation)) {
+                doCollision();
+            }
+        });
+    }
+
+    checkThisSnakeCollision() {
+        if (this.dead || this.recovering) {
+            return
+        }
+
+        for (let i = 1; i < this.length; i++) {
+            if (areCoordsEqual(this.returnHeadLocation(), this.location[i])) {
+                this.doCollision();
+            }
+        }
     }
 
     doCollision() {

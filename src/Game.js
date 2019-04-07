@@ -84,8 +84,8 @@ export class Game extends Component {
         let newSnake1 = this.state.snakes.snake1;
         let newSnake2 = this.state.snakes.snake2;
 
-        newSnake1.tick(this.state.size);
-        newSnake2.tick(this.state.size);
+        newSnake1.tick(this.state.size, this.state.snakes.snake2);
+        newSnake2.tick(this.state.size, this.state.snakes.snake1);
 
         newSnake1 = this.updateSnakeOnAppleCollision(newSnake1);
         newSnake2 = this.updateSnakeOnAppleCollision(newSnake2);
