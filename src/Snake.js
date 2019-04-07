@@ -107,12 +107,11 @@ export class Snake {
 
     checkOtherSnakeCollision(snake) {
         let headLocation = this.returnHeadLocation();
-        let doCollision = () => this.doCollision();
-        snake.location.forEach(function(element) {
-            if (areCoordsEqual(element, headLocation)) {
-                doCollision();
+        for (let i = 0; i < snake.length; i++) {
+            if (areCoordsEqual(headLocation, snake.location[i])) {
+                this.doCollision();
             }
-        });
+        }
     }
 
     checkThisSnakeCollision() {

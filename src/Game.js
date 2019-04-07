@@ -64,7 +64,6 @@ export class Game extends Component {
             this.state.snakes.snake1.keyPressArray.push(eventCode);
         } else {
             this.state.snakes.snake2.keyPressArray.push(eventCode);
-            console.log(this.state.snakes.snake2.keyPressArray)
         }
     }
 
