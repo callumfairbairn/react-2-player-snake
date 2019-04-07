@@ -59,12 +59,30 @@ body {
 #gameContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 #message {
     font-size: xx-large;
     position: fixed;
     text-align: center;
+}
+
+.bothScoresContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 39.2vw;
+}
+
+.scoreContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100px;
+}
+
+#scoreContainer1 {
+    flex-direction: row-reverse;
 }

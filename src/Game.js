@@ -47,19 +47,6 @@ export class Game extends Component {
         this.focusByID('gameDiv');
     }
 
-    makeRows() {
-        let rows = new Array(this.state.size.y);
-        for (let y = 0; y < this.state.size.y; y++) {
-            rows.push(<Row
-                size={this.state.size}
-                snakes={this.state.snakes}
-                row={y}
-                appleLocation={this.state.appleLocation}
-            />);
-        }
-        return rows;
-    }
-
     handleKeyPress(event) {
         let eventCode = event.charCode || event.keyCode;
         let playerMap = {
@@ -77,6 +64,7 @@ export class Game extends Component {
             this.state.snakes.snake1.keyPressArray.push(eventCode);
         } else {
             this.state.snakes.snake2.keyPressArray.push(eventCode);
+            console.log(this.state.snakes.snake2.keyPressArray)
         }
     }
 
@@ -127,9 +115,46 @@ export class Game extends Component {
         return false;
     }
 
+    makeRows() {
+        let rows = new Array(this.state.size.y);
+        for (let y = 0; y < this.state.size.y; y++) {
+            rows.push(<Row
+                size={this.state.size}
+                snakes={this.state.snakes}
+                row={y}
+                appleLocation={this.state.appleLocation}
+            />);
+        }
+        return rows;
+    }
+
+    makePlayerButtons() {
+        let playerButtons = new Array(2);
+        playerButtons.push(
+            <div className='scoreContainer' id='scoreContainer2'>
+                <button className='colouredSquare' id='snake2Square'>
+                </button>
+                <div>
+                    Score: {this.state.snakes.snake2.length}
+                </div>
+
+            </div>
+        );
+
+        playerButtons.push(
+            <div className='scoreContainer' id='scoreContainer1'>
+                <button className='colouredSquare' id='snake1Square'>
+                </button>
+                <div>
+                    Score: {this.state.snakes.snake1.length}
+                </div>
+            </div>);
+        return playerButtons;
+    }
+
     render() {
         let rows = this.makeRows();
-
+        let playerButtons = this.makePlayerButtons();
         return (
             <div id='gameContainer'>
                 <div
@@ -139,6 +164,9 @@ export class Game extends Component {
                     ref={(input)=> this.my_refs['gameDiv'] = input}
                     >
                     {rows}
+                </div>
+                <div className='bothScoresContainer'>
+                    {playerButtons}
                 </div>
             </div>
         )
