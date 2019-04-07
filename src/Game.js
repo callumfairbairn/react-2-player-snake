@@ -21,6 +21,8 @@ export class Game extends Component {
             size: size,
             snakes: snakes,
             appleLocation: randomAppleLocation(size),
+            goal: 10,
+            winner: 'none',
         };
 
 
@@ -68,6 +70,10 @@ export class Game extends Component {
     }
 
     tick() {
+        if (this.state.winner !== 'none') {
+            return
+        }
+
         let newSnake1 = this.state.snakes.snake1;
         let newSnake2 = this.state.snakes.snake2;
 
@@ -76,6 +82,8 @@ export class Game extends Component {
 
         newSnake1 = this.updateSnakeOnAppleCollision(newSnake1);
         newSnake2 = this.updateSnakeOnAppleCollision(newSnake2);
+
+        this.checkForWinner(newSnake1, newSnake2);
 
         let newSnakes = {snake1: newSnake1, snake2: newSnake2};
         this.setState({
@@ -112,6 +120,19 @@ export class Game extends Component {
             }
         }
         return false;
+    }
+
+    checkForWinner(snake1, snake2) {
+        if (snake1.length === this.state.goal) {
+            this.setState({
+                winner: 'Black snake'
+            });
+        }
+        if (snake2.length === this.state.goal) {
+            this.setState({
+                winner: 'Blue snake'
+            });
+        }
     }
 
     makeRows() {
@@ -151,9 +172,28 @@ export class Game extends Component {
         return playerButtons;
     }
 
+    makeWinnerMessage() {
+        if (this.state.winner !== 'none') {
+            if (this.state.winner === 'Black snake') {
+                return (
+                    <div id="message">
+                        CONGRATULATIONS! {this.state.winner} wins!
+                    </div>
+                );
+            } else {
+                return (
+                    <div id="blueMessage">
+                        CONGRATULATIONS! {this.state.winner} wins!
+                    </div>
+                );
+            }
+        }
+    }
+
     render() {
         let rows = this.makeRows();
         let playerButtons = this.makePlayerButtons();
+        let winnerMessage = this.makeWinnerMessage();
         return (
             <div id='gameContainer'>
                 <div
@@ -167,6 +207,7 @@ export class Game extends Component {
                 <div className='bothScoresContainer'>
                     {playerButtons}
                 </div>
+                {winnerMessage}
             </div>
         )
     }

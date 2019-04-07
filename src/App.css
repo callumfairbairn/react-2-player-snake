@@ -64,10 +64,14 @@ body {
     flex-wrap: nowrap;
 }
 
-#message {
+#message, #blueMessage {
     font-size: xx-large;
     position: fixed;
     text-align: center;
+}
+
+#blueMessage {
+    color: aquamarine;
 }
 
 .bothScoresContainer {
@@ -80,6 +84,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100px;
 }
 
 #scoreContainer1 {
