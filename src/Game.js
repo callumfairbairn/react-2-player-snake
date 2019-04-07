@@ -107,11 +107,11 @@ export class Game extends Component {
     }
 
     isAppleUnderSnake(snake, appleLocation) {
-        snake.location.forEach(function(element) {
-            if (areCoordsEqual(element, appleLocation)) {
+        for (let i = 0; i < snake.length; i++) {
+            if (areCoordsEqual(snake.location[i], appleLocation)) {
                 return true;
             }
-        });
+        }
         return false;
     }
 
