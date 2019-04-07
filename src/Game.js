@@ -21,7 +21,7 @@ export class Game extends Component {
             size: size,
             snakes: snakes,
             appleLocation: randomAppleLocation(size),
-            goal: 10,
+            goal: 50,
             winner: 'none',
         };
 
