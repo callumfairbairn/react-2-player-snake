@@ -73,14 +73,13 @@ body {
 .bothScoresContainer {
     display: flex;
     justify-content: space-between;
-    width: 39.2vw;
+    width: 658px;
 }
 
 .scoreContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100px;
 }
 
 #scoreContainer1 {
