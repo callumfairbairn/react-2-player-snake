@@ -24,6 +24,10 @@ body {
     background-color: aquamarine;
 }
 
+#deadSquare {
+    background-color: #bb0009;
+}
+
 .square:focus, .colouredSquare:focus, .appleSquare:focus, .game:focus, #gameDiv {
     outline: none;
 }

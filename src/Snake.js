@@ -1,4 +1,4 @@
-import {Coord} from './GlobalImports'
+import {Coord, areCoordsEqual} from './GlobalImports'
 
 export class Snake {
     constructor(size, startingPosition) {
@@ -6,6 +6,9 @@ export class Snake {
         this.direction = 'none';
         this.location = [startingPosition];
         this.keyPressArray = [];
+        this.dead = false;
+        this.recovering = false;
+        this.touching = false;
 
         // this.locationMap = {
         //     'left': this.moveLeft(),
@@ -15,11 +18,11 @@ export class Snake {
         // };
     }
 
-    tick() {
+    tick(gridSize) {
         this.handleKeyPressArray();
         this.updateBodyLocation();
         this.updateHeadLocation();
-
+        this.checkBorderCollision(gridSize);
     }
 
     handleKeyPressArray() {
@@ -57,6 +60,12 @@ export class Snake {
     }
 
     updateHeadLocation() {
+        if (this.dead) {
+            if(this.makeSnakeWaitForTail()) {
+                return;
+            }
+        }
+
         if (this.direction === 'left') {
             this.moveLeft();
         } else if (this.direction === 'right') {
@@ -66,6 +75,53 @@ export class Snake {
         } else if (this.direction === 'down') {
             this.moveDown();
         }
+    }
+
+    makeSnakeWaitForTail() {
+        if (areCoordsEqual(this.location[0], this.location[this.length])) {
+            this.dead = false;
+            this.recovering = true;
+            return false;
+        }
+        return true;
+    }
+
+    checkBorderCollision(gridSize) {
+        if (this.returnHeadLocation().x < 0) {
+            this.doCollision()
+        }
+        if (this.returnHeadLocation().x > gridSize.x-1) {
+            this.doCollision()
+        }
+        if (this.returnHeadLocation().y < 0) {
+            this.doCollision()
+        }
+        if (this.returnHeadLocation().y > gridSize.y-1) {
+            this.doCollision()
+        }
+        this.endRecoveryIfNotTouchingAnything();
+    }
+
+    doCollision() {
+        this.touching = true;
+        this.location[0] = this.location[1];
+        if (!this.recovering) {
+            this.deathPunishment();
+        }
+    }
+
+    deathPunishment() {
+        this.dead = true;
+        if (this.length > 1) {
+            this.length--;
+        }
+    }
+
+    endRecoveryIfNotTouchingAnything() {
+        if (!this.touching && this.recovering) {
+            this.recovering = false;
+        }
+        this.touching = false;
     }
 
     moveUp() {

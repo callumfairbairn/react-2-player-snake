@@ -13,6 +13,9 @@ export class Square extends Component {
     renderSnake(snake) {
         for (let i = 0; i < snake.length; i++) {
             if (areCoordsEqual(snake.location[i], this.coord)) {
+                if (snake.dead) {
+                    return <button className='colouredSquare' id='deadSquare'> </button>;
+                }
                 if (snake === this.snake1) {
                     return <button className='colouredSquare' id='snake1Square'> </button>;
                 } else {
