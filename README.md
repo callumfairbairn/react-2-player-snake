@@ -1,6 +1,8 @@
 ## Description
 
-This will be a two player snake game based on my last project 'react-snake-game'.
+This is a two player snake game based on my last project 'react-snake-game'.
+
+This app is being hosted at https://two-player-snake.herokuapp.com/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
