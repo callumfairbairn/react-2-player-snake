@@ -1,7 +1,8 @@
+import {Coord} from './GlobalImports'
+
 export class Snake {
     constructor(size, startingPosition) {
         this.length = 1;
-        this.speed = 1;
         this.direction = 'none';
         this.location = [startingPosition];
         this.keyPressArray = [];
@@ -16,7 +17,9 @@ export class Snake {
 
     tick() {
         this.handleKeyPressArray();
-        this.moveToNewLocation();
+        this.updateBodyLocation();
+        this.updateHeadLocation();
+
     }
 
     handleKeyPressArray() {
@@ -47,12 +50,10 @@ export class Snake {
         }
     }
 
-    moveToNewLocation() {
-        // the -1 here could cause problems later on
-        for (let i = this.location.length-1; i > 0; i--) {
-            this.location[i] = [this.location[i-1].x, this.location[i-1].y ]
+    updateBodyLocation() {
+        for (let i = this.length; i > 0; i--) {
+            this.location[i] = new Coord(this.location[i-1].x, this.location[i-1].y);
         }
-        this.updateHeadLocation();
     }
 
     updateHeadLocation() {
@@ -81,5 +82,9 @@ export class Snake {
 
     moveRight() {
         this.location[0].x++;
+    }
+
+    returnHeadLocation() {
+        return this.location[0];
     }
 }

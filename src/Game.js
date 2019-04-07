@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Row} from './Row'
 import {Snake} from './Snake'
-import {Coord, randomAppleLocation} from './GlobalImports'
+import {areCoordsEqual, Coord, randomAppleLocation} from './GlobalImports'
 
 export class Game extends Component {
     constructor(props) {
@@ -87,10 +87,44 @@ export class Game extends Component {
         newSnake1.tick();
         newSnake2.tick();
 
+        newSnake1 = this.updateSnakeOnAppleCollision(newSnake1);
+        newSnake2 = this.updateSnakeOnAppleCollision(newSnake2);
+
         let newSnakes = {snake1: newSnake1, snake2: newSnake2};
         this.setState({
             snakes: newSnakes,
         });
+    }
+
+    updateSnakeOnAppleCollision(snake) {
+        let appleLocation = this.state.appleLocation;
+        if (areCoordsEqual(snake.returnHeadLocation(), appleLocation)) {
+            snake.length++;
+            appleLocation = this.generateNewAppleLocation();
+        }
+
+        this.setState({
+            appleLocation: appleLocation
+        });
+        return snake;
+    }
+
+    generateNewAppleLocation() {
+        let appleLocation = randomAppleLocation(this.state.size);
+
+        if (this.isAppleUnderSnake(this.state.snakes.snake1, appleLocation) || this.isAppleUnderSnake(this.state.snakes.snake2, appleLocation)) {
+            appleLocation = this.generateNewAppleLocation();
+        }
+        return appleLocation;
+    }
+
+    isAppleUnderSnake(snake, appleLocation) {
+        snake.location.forEach(function(element) {
+            if (areCoordsEqual(element, appleLocation)) {
+                return true;
+            }
+        });
+        return false;
     }
 
     render() {
