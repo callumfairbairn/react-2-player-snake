@@ -53,8 +53,8 @@ export class Snake {
         let newDirection = directionMap[eventCode];
         if (newDirection) {
             this.direction = newDirection;
-            this.keyPressArray = this.keyPressArray.slice(1);
         }
+        this.keyPressArray = this.keyPressArray.slice(1);
     }
 
     updateBodyLocation() {
